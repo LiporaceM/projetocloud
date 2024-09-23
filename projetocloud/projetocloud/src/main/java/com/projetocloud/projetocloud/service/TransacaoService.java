@@ -70,9 +70,7 @@ public class TransacaoService {
                 .getTransacoes()
                 .stream()
                 .filter(x -> x.getDataTransacao().isAfter(localDateTime))
-                .toArray();
-
-      
+                .toList();
 
         if (ultimasTransacoes.size() >= 3) {
             throw new Exception("Cartão utilizado muitas vezes em um período curto");

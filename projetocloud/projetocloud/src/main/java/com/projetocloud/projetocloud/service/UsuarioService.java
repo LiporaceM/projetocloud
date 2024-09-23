@@ -4,35 +4,38 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
-import com.projetocloud.projetocloud.model.Cartao;
-import com.projetocloud.projetocloud.model.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.projetocloud.projetocloud.exception.UsuarioException;
+import com.projetocloud.projetocloud.model.Cartao;
+import com.projetocloud.projetocloud.model.Usuario;
+import com.projetocloud.projetocloud.repository.CartaoRepository;
+import com.projetocloud.projetocloud.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-    private static List<Usuario> database = new ArrayList<>();
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    public Usuario criarUsuario(String nome, String cpf, LocalDateTime dataNascimento) {
-        Usuario usuario = new Usuario();
+    @Autowired
+    private CartaoRepository cartaoRepository;
 
-        //TODO: Validar CPF
-        usuario.setCpf(cpf);
+    public Usuario criarUsuario(Usuario usuario) throws UsuarioException {
+       
+        Optional<Usuario> optUsuario = this.usuarioRepository.findUsuarioByCpf(usuario.getCpf());
 
-        usuario.setNome(nome);
-        usuario.setDataNascimento(dataNascimento);
-        // usuario.setId(UUID.randomUUID());
+        if (optUsuario.isPresent()) {
+            throw new UsuarioException("Usuario com cpf informado já cadastrado");
+        }
 
-        database.add(usuario);
+
+        //INSERE NA BASE DE DADOS
+        usuarioRepository.save(usuario);
 
         return usuario;
-    }
-
-    public class ValidaCPF {
-
     }
 
     public Usuario buscaUsuario(int id) {
@@ -57,15 +60,23 @@ public class UsuarioService {
         //Associa um cartão a um usuario
         usuario.associarCartao(cartao);
 
+        //Salvar cartao de credito do usuario;
+        cartaoRepository.save(cartao);
+
+        //Atualiza o usuário com a referencia do cartao
+        usuarioRepository.save(usuario);
+
     }
 
     private Usuario findUsuario(int id) {
-        for (Usuario item : database) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
-    }
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
 
+        if (usuario.isEmpty())
+            return null;
+
+        return usuario.get();
+
+
+    }
+    
 }

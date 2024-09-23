@@ -1,49 +1,29 @@
 package com.projetocloud.projetocloud.controller;
 
-import com.projetocloud.projetocloud.model.Usuario;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import com.projetocloud.projetocloud.model.Usuario;
+import com.projetocloud.projetocloud.service.UsuarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
-    private static List<Usuario> Usuarios = new ArrayList<>();
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuario() { return new ResponseEntity(Usuarios, HttpStatus.OK);}
+    @Autowired
+    private UsuarioService usuarioService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") int id) {
-        Usuario response = null;
-
-        for (Usuario usuario : Usuarios) {
-            if (usuario.getId() == id) {
-                response = usuario;
-                break;
-            }
-        }
-
-        if (response == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
-    }
-
-    @PostMapping
-    public ResponseEntity<Usuario> saveUsuario(@Valid @RequestBody Usuario usuario) {
-        Usuarios.add(usuario);
+    @PostMapping()
+    public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody Usuario usuario) throws Exception { 
+        usuarioService.criarUsuario(usuario);
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
     }
-
-
-
-
-
+    
 }
