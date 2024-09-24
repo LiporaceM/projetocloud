@@ -3,6 +3,7 @@ package com.projetocloud.projetocloud.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class Usuario {
     private String cpf;
 
     @Column
-    @NotBlank(message = "Campo data é obrigatório")
+    @NotNull(message = "Campo data é obrigatório")
     private LocalDateTime dataNascimento;
 
     @Column
