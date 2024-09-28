@@ -16,7 +16,7 @@ public class Cartao {
     public int id;
 
     @Column
-    public Boolean status;
+    public Boolean ativo;
 
     @Column
     public int CVV;
