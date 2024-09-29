@@ -20,7 +20,7 @@ public class AutorizacaoService {
     public void autorizarTransacao(Cartao cartao, Transacao transacao) throws AutorizacaoException {
         
         // Regra 1: O valor da transação não deve exceder o limite disponível.
-        if (transacao.getValor() > cartao.getLimiteDisponivel()) {
+        if (transacao.getValor() > cartao.getLimite()) {
             throw new AutorizacaoException("Limite insuficiente");
         }
 
@@ -41,7 +41,7 @@ public class AutorizacaoService {
 
         // Regra 4: Não deve haver mais de 2 transações semelhantes em um intervalo de 2 minutos.
         long transacoesSemelhantes = transacoesRecentes.stream()
-            .filter(t -> t.getValor().equals(transacao.getValor()) && t.getComerciante().equals(transacao.getComerciante()))
+            .filter(t -> t.getValor() == (transacao.getValor()) && t.getComerciante().equals(transacao.getComerciante()))
             .count();
 
         if (transacoesSemelhantes >= 2) {

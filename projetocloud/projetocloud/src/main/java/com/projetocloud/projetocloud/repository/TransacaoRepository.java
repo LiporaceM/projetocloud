@@ -7,5 +7,5 @@ import com.projetocloud.projetocloud.model.Cartao;
 import com.projetocloud.projetocloud.model.Transacao;
 
 public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
-    List<Transacao> findByCartaoAndDataBetween(Cartao cartao, LocalDateTime inicio, LocalDateTime fim);
+    List<Transacao> findByCartaoAndDataBetween(Cartao cartao, LocalDateTime inicio, LocalDateTime fim);
 }
