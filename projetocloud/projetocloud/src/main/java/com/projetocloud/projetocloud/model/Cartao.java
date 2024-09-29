@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 public class Cartao {
@@ -25,7 +27,7 @@ public class Cartao {
     @Column
     private String numero;
 
-    // Adicionando a referência ao usuário
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id") // Chave estrangeira que aponta para Usuario
     private Usuario usuario;

@@ -1,120 +1,147 @@
-/*package com.projetocloud.projetocloud;
+package com.projetocloud.projetocloud;
 
-import java.time.LocalDateTime;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
+import com.projetocloud.projetocloud.exception.UsuarioException;
 import com.projetocloud.projetocloud.model.Cartao;
 import com.projetocloud.projetocloud.model.Usuario;
+import com.projetocloud.projetocloud.repository.CartaoRepository;
+import com.projetocloud.projetocloud.repository.UsuarioRepository;
 import com.projetocloud.projetocloud.service.UsuarioService;
 
-@SpringBootTest
-class ProjetocloudServiceTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-	@Autowired UsuarioService service;
+class UsuarioServiceTest {
 
-	@Test 
-	public void should_create_usuario() throws Exception {
-		Usuario item = new Usuario();
-		item.setId(1);
-		item.setNome("Paulo");
-		item.setCpf("1");
-    	item.setDataNascimento(2020-10-2T00:00:00);
-		item.setEmail("teste@teste.com");
-		item.setEndereco("5a avenida, new york");
-		item.setCelular("988438283");
-		item.setCartoes(cartoes);
+    @Mock
+    private UsuarioRepository usuarioRepository;
 
-		Usuario result = service.criarUsuario(item);
+    @Mock
+    private CartaoRepository cartaoRepository;
 
-		Assertions.assertNotNull(result);
-		Assertions.assertTrue(result.getId() == 1);
-		Assertions.assertEquals(result.getNome(), item.getNome());
+    @InjectMocks
+    private UsuarioService usuarioService;
 
-	}
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-	@Test
-	public void should_get_item() throws Exception {
-		Usuario item = new Usuario();
-		item.setNome("Jorge");
-		item.setCpf("1");
-		item.setDataNascimento(2002-10-31T00:00:00);
-		item.setEmail("teste@teste.com");
-		item.setId(5);
-		item.setEndereco("5a avenida, new york");
-		item.setCelular("928394822");
-		item.setCartoes(cartoes);
+    @Test
+    void criarUsuario_DeveCriarUsuario_QuandoUsuarioNaoExistir() throws Exception {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setCpf("12345678900");
+        usuario.setCartoes(new ArrayList<>());
 
-		Usuario response = service.getItem(5);
+        when(usuarioRepository.findUsuarioByCpf(any(String.class))).thenReturn(Optional.empty());
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
-		Assertions.assertNull(response);
-		Assertions.assertTrue(response.getId(5) == response);
-		Assertions.assertEquals(response.getCpf(), response.getCpf());
+        // Act
+        Usuario usuarioCriado = usuarioService.criarUsuario(usuario);
 
+        // Assert
+        assertNotNull(usuarioCriado);
+        verify(usuarioRepository, times(1)).findUsuarioByCpf(any(String.class));
+        verify(usuarioRepository, times(1)).save(any(Usuario.class));
+    }
 
-	}
+    @Test
+    void criarUsuario_DeveLancarExcecao_QuandoUsuarioJaExistir() {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setCpf("12345678900");
 
-	@Test
-	public void should_create_item_if_usuario_has_less_five_less_cartoes() throws Exception {
-		for (int i = 0; i < 5; i++) {
-			Usuario item = new Usuario();
-			item.setNome("Felipe");
-			item.setCpf("1");
-			item.setDataNascimento(2002-10-31T00:00:00);
-			item.setEmail("teste@teste.com");
-			item.setId(i);
-			item.setEndereco("5a avenida, new york");
-			item.setCelular("923432356");
-			item.setCartoes(cartoes + i);
-		}
+        when(usuarioRepository.findUsuarioByCpf(any(String.class))).thenReturn(Optional.of(usuario));
 
-		Cartao newCartao = new Cartao();
-		item.setId(10);
-		item.setStatus(1);
-		item.setCVV(342);
-		item.setLimite(4000,00);
-		item.setNumero("4035-0324-2034-2034");
-		item.setTransacoes(transacoes);
-		Cartao response = service.criarCartao(new Cartao());
+        // Act & Assert
+        UsuarioException exception = assertThrows(UsuarioException.class, () -> {
+            usuarioService.criarUsuario(usuario);
+        });
 
-		Assertions.assertNotNull(response);
-		Assertions.assertTrue(response.getId() == 10);
-		Assertions.assertEquals(response.getStatus(), 1);
+        assertEquals("Usuario com cpf informado já cadastrado", exception.getMessage());
+        verify(usuarioRepository, times(1)).findUsuarioByCpf(any(String.class));
+        verify(usuarioRepository, never()).save(any(Usuario.class));
+    }
 
-	}
+    @Test
+    void criarUsuario_DeveAssociarCartoes() throws Exception {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setCpf("12345678900");
 
-	@Test
-	public void should_not_create_item_if_usuario_has_five_more_cartoes() throws Exception {
-		for (int i = 0; i < 5; i++) {
-			Usuario item = new Usuario();
-			item.setNome("Felipe");
-			item.setCpf("1");
-			item.setDataNascimento(2002-10-31T00:00:00);
-			item.setEmail("teste@teste.com");
-			item.setId(i);
-			item.setEndereco("5a avenida, new york");
-			item.setCelular("923432356");
-			item.setCartoes(cartoes + i);
-		}
+        Cartao cartao = new Cartao();
+        cartao.setAtivo(true);
 
-		Cartao newCartao = new Cartao();
-		item.setId(10);
-		item.setStatus(1);
-		item.setCVV(342);
-		item.setLimite(4000,00);
-		item.setNumero("4035-0324-2034-2034");
-		item.setTransacoes(transacoes);
-		Cartao response = service.criarCartao(new Cartao());
+        List<Cartao> cartoes = new ArrayList<>();
+        cartoes.add(cartao);
+        usuario.setCartoes(cartoes);
 
-		Assertions.assertThrowsExactly(Exception.class, null)
+        when(usuarioRepository.findUsuarioByCpf(any(String.class))).thenReturn(Optional.empty());
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
-	}
-	}
+        // Act
+        Usuario usuarioCriado = usuarioService.criarUsuario(usuario);
 
+        // Assert
+        assertNotNull(usuarioCriado);
+        verify(usuarioRepository, times(1)).save(any(Usuario.class));
+        verify(cartaoRepository, times(1)).save(any(Cartao.class));
+    }
+
+    @Test
+    void associarCartao_DeveLancarExcecao_QuandoCartaoInativo() {
+        // Arrange
+        Usuario usuario = new Usuario();
+        Cartao cartao = new Cartao();
+        cartao.setAtivo(false);
+
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            usuarioService.associarCartao(cartao, usuario);
+        });
+
+        assertEquals("Não posso associar um cartão inativo ao usuário", exception.getMessage());
+        verify(cartaoRepository, never()).save(any(Cartao.class));
+    }
+
+    @Test
+    void buscaUsuario_DeveRetornarUsuario_QuandoIdExistir() {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setId(1);
+
+        when(usuarioRepository.findById(any(Integer.class))).thenReturn(Optional.of(usuario));
+
+        // Act
+        Usuario usuarioEncontrado = usuarioService.buscaUsuario(1);
+
+        // Assert
+        assertNotNull(usuarioEncontrado);
+        assertEquals(1, usuarioEncontrado.getId());
+        verify(usuarioRepository, times(1)).findById(1);
+    }
+
+    @Test
+    void buscaUsuario_DeveRetornarNull_QuandoIdNaoExistir() {
+        // Arrange
+        when(usuarioRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
+
+        // Act
+        Usuario usuarioEncontrado = usuarioService.buscaUsuario(1);
+
+        // Assert
+        assertNull(usuarioEncontrado);
+        verify(usuarioRepository, times(1)).findById(1);
+    }
 }
-*/

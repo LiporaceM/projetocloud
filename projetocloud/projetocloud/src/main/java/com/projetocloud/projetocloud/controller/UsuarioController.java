@@ -25,5 +25,4 @@ public class UsuarioController {
         usuarioService.criarUsuario(usuario);
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
     }
-    
 }

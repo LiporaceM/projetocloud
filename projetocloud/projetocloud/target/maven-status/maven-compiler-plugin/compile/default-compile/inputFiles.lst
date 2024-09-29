@@ -1,0 +1,17 @@
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\controller\CartaoController.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\controller\TransacaoController.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\controller\UsuarioController.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\exception\CartaoException.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\exception\UsuarioException.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\exception\ValidationError.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\exception\ValidationErrorAdvice.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\exception\ValidationMessageErrors.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\model\Cartao.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\model\Transacao.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\model\Usuario.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\repository\CartaoRepository.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\repository\TransacaoRepository.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\repository\UsuarioRepository.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\service\TransacaoService.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\service\UsuarioService.java
+C:\Users\LENOVO\Documents\Faculdade\POO\projetoAP1\projetocloud\projetocloud\projetocloud\src\main\java\com\projetocloud\projetocloud\TodoApplication.java
