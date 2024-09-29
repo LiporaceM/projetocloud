@@ -8,16 +8,15 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
 
 @Data
 @Entity
-
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    private int id;
 
     @Column
     @NotBlank(message = "Campo nome é obrigatório.")
@@ -44,11 +43,11 @@ public class Usuario {
     @NotBlank(message = "Campo celular é obrigatório.")
     private String celular;
 
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id", name = "usuario_id")
+    @OneToMany(mappedBy = "usuario") // 'usuario' é o nome da propriedade na classe Cartao
     private List<Cartao> cartoes;
 
     public void associarCartao(Cartao cartao) {
         this.cartoes.add(cartao);
     }
 }
+

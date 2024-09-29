@@ -2,7 +2,6 @@ package com.projetocloud.projetocloud.model;
 
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,4 +21,10 @@ public class Transacao {
 
     @Column
     public String comerciante;
+
+    // Adicione a relação ManyToOne com o Cartao
+    @ManyToOne
+    @JoinColumn(name = "cartao_id") // Chave estrangeira que aponta para Cartao
+    private Cartao cartao;
 }
+
