@@ -1,7 +1,6 @@
 package com.projetocloud.projetocloud.controller;
 
 import com.projetocloud.projetocloud.model.Transacao;
-import com.projetocloud.projetocloud.model.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

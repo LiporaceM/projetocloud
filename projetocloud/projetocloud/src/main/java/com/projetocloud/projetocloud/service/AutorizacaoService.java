@@ -1,6 +1,5 @@
 package com.projetocloud.projetocloud.service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
