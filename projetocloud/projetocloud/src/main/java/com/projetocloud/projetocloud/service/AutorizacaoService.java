@@ -1,4 +1,4 @@
-package com.projetocloud.projetocloud.service;
+/*package com.projetocloud.projetocloud.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,4 +51,4 @@ public class AutorizacaoService {
         transacaoRepository.save(transacao);
     }
 }
-
+*/
